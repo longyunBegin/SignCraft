@@ -2,7 +2,15 @@
 
 极简本地工具，两个功能：**签名生成** 与 **RSA 密钥对生成**。全部在浏览器内用 WebCrypto 完成，不向服务器发送任何请求。签名算法与后端 `SignUtils` + `SHA256WithRSAUtils` 完全一致。
 
-## 启动
+## 下载（桌面版）
+
+去 [Releases](../../releases) 下载：
+- macOS：`SignCraft_*.dmg`
+- Windows：`SignCraft_*_x64-setup.exe`
+
+基于 Tauri 打包（系统 WebView，不内嵌 Chromium），安装包约 10 MB。
+
+## 网页版启动
 ```bash
 npm install
 npm run dev
@@ -45,4 +53,19 @@ npm test
 - 占位符一律用 `<SECRET_KEY>` / `<PRIVATE_KEY>`
 
 ## 技术栈
-Vite + React + 浏览器 WebCrypto（零后端、零 UI 库）
+Vite + React + 浏览器 WebCrypto（零后端）；前端动效用 [motion](https://motion.dev)（uselayouts 风格：弹簧物理、layoutId 共享元素过渡、idle/loading/success 状态按钮）
+
+## 桌面版打包（Tauri）
+
+```bash
+npm run tauri:dev    # 本地调试桌面壳
+npm run tauri:build  # 本机打包
+```
+
+推送 tag 自动打两个平台的包并发布 Release：
+
+```bash
+git tag v1.0.0 && git push origin v1.0.0
+```
+
+`.github/workflows/release.yml` 会在 GitHub Actions 上分别构建 macOS（dmg）与 Windows（NSIS exe），产物自动挂到 Release 下。图标在 CI 里由 `src-tauri/icons/icon.png` 经 `tauri icon` 生成（`.icns` / `.ico`）。
