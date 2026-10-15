@@ -5,10 +5,15 @@
 ## 下载（桌面版）
 
 去 [Releases](../../releases) 下载：
-- macOS：`SignCraft_*.dmg`
-- Windows：`SignCraft_*_x64-setup.exe`
+- macOS：`SignCraft_1.0.0_aarch64.dmg`（约 2.8 MB）
+- Windows：`SignCraft_1.0.0_x64-setup.exe`
 
-基于 Tauri 打包（系统 WebView，不内嵌 Chromium），安装包约 10 MB。
+基于 Tauri 打包（调用系统 WebView，不内嵌 Chromium，所以安装包很小）。
+
+> macOS 提示"已损坏"无法打开？这是因为 App 没有 Apple 开发者签名（非付费开发者账号无法签名），文件本身没问题。终端执行一次即可：
+> ```bash
+> xattr -cr /Applications/SignCraft.app
+> ```
 
 ## 网页版启动
 ```bash
