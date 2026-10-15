@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import DiscreteTabs from './components/DiscreteTabs.jsx';
 import SignTool from './components/SignTool.jsx';
 import KeygenTool from './components/KeygenTool.jsx';
 
@@ -7,7 +9,12 @@ export default function App() {
 
   return (
     <div className="app">
-      <header className="app-header">
+      <motion.header
+        className="app-header"
+        initial={{ opacity: 0, y: 16, filter: 'blur(6px)' }}
+        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
         <div className="brand">
           <svg className="logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
             <rect width="64" height="64" rx="15" fill="#1d1d1f" />
@@ -17,15 +24,28 @@ export default function App() {
           <h1>SignCraft</h1>
         </div>
         <p>本地生成 · 不向服务器发送任何请求 · 与后端签名规则对齐</p>
-      </header>
+      </motion.header>
 
-      <div className="tabs">
-        <button className={tab === 'sign' ? 'active' : ''} onClick={() => setTab('sign')}>签名生成</button>
-        <button className={tab === 'key' ? 'active' : ''} onClick={() => setTab('key')}>密钥生成</button>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <DiscreteTabs tab={tab} onChange={setTab} />
+      </motion.div>
 
       <main className="content">
-        {tab === 'sign' ? <SignTool /> : <KeygenTool />}
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={tab}
+            initial={{ opacity: 0, y: 14, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
+            transition={{ duration: 0.24, ease: [0.32, 0.72, 0, 1] }}
+          >
+            {tab === 'sign' ? <SignTool /> : <KeygenTool />}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       <footer className="app-footer">
